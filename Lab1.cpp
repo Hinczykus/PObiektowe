@@ -111,12 +111,21 @@ void Z2g(unsigned int n) {
         std::cout << std::endl;
     }
 }
+int Z3(unsigned int n) {
+    int suma=0;
+    for (int i = 0; i < n; i++) {
+        if (i % 2) {
+            suma += i;
+        }
+    }
+    return suma;
+}
 
 
 int main()
 {
     unsigned int n;
     std::cin >> n;
-    Z2g(n);
+    std::cout<< Z3(n);
     return 0;
 }
