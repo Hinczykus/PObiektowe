@@ -132,11 +132,29 @@ void Z4(unsigned int a, unsigned int b) {
     std::cout << std::endl << "ilosc tego to: " << ilosc;
 }
 
+bool Z5(unsigned int n) {
+    int sumadzielnikow = 1;
+    for (int i = 2; i <= n/2; i++) {
+        if (n % i == 0) {
+            sumadzielnikow += i;
+        }
+    }
+    return (sumadzielnikow == n);
+}
+
+int Z6(unsigned int n) {
+    for (int i = n;; i++) {
+        if (Z5(i)) return i;
+    }
+}
+//troche dlugo schodzi powyzej 8128 ale kiedys powinno wyjsc 
 
 int main(){
-    unsigned int n, b;
-    std::cin >> n >> b;
-    //std::cout << Z3(n);
-    Z4(n, b);
+    unsigned int n; // b;
+    std::cin >> n;  //>> b;
+                    //std::cout << Z3(n);
+                    //Z4(n, b);
+    std::cout << Z6(n);
+
     return 0;
 }
