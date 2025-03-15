@@ -89,12 +89,34 @@ void Z2e(unsigned int n) {
     }
 }
 
+void Z2f(unsigned int n) {
+    for (int i = 0; i < n; i++) {
+        for (int s = i; s<n; s++) {
+            std::cout << " ";
+        }
+        for (int j = (n - i); j <= n; j++) {
+            std::cout << j;
+        }
+        std::cout << std::endl;
+    }
+}
+void Z2g(unsigned int n) {
+    for (int i = 0; i < n; i++) {
+        for (int s = (n-i); s <= n; s++) {
+            std::cout << " ";
+        }
+        for (int j = (n-i) ; j>0; j--) {
+            std::cout << j;
+        }
+        std::cout << std::endl;
+    }
+}
 
 
 int main()
 {
     unsigned int n;
     std::cin >> n;
-    Z2e(n);
+    Z2g(n);
     return 0;
 }
