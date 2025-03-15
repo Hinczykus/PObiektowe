@@ -121,11 +121,22 @@ int Z3(unsigned int n) {
     return suma;
 }
 
+void Z4(unsigned int a, unsigned int b) {
+    int ilosc = 0;
+    for (int i = a; i <= b; i++) {
+        if (i % 7 == 0) {
+            std::cout << i << "  ";
+            ilosc++;
+        }
+    }
+    std::cout << std::endl << "ilosc tego to: " << ilosc;
+}
 
-int main()
-{
-    unsigned int n;
-    std::cin >> n;
-    std::cout<< Z3(n);
+
+int main(){
+    unsigned int n, b;
+    std::cin >> n >> b;
+    //std::cout << Z3(n);
+    Z4(n, b);
     return 0;
 }
