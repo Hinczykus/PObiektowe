@@ -1,63 +1,81 @@
 ﻿
 #include <iostream>
 double A;
-bool mem_uzywane=0;
 double suma() {
-	return A + B;
+	double B;
+	std::cout << "Druga liczba: ";
+	std::cin >> B;
+	return A=(A + B);
 }
-
 double roznica() {
-	return A-B;
+	double B;
+	std::cout << "Druga liczba: ";
+	std::cin >> B;
+	return A=(A-B);
 }
 double mnozenie() {
-	return A*B;
+	double B;
+	std::cout << "Druga liczba: ";
+	std::cin >> B;
+	return A=(A*B);
 }
-
 double dzielenie() {
-
+	double B;
+	std::cout << "Druga liczba: ";
+	std::cin >> B;
 	if (B) {
-		return A / B;
+		return A=(A / B);
 	}
 	else {
-		std::cout << "dzielenie przez zero";
-		return A;
+		std::cout << "dzielenie przez zero, try again: \n";
+		return dzielenie();
 	}
 }
-
 double modulo() {
-		return A - (int)(A / B) * B;
+	double B;
+	std::cout << "Druga liczba: ";
+	std::cin >> B;
+	if (B) {
+		return A = (A - (int)(A / B) * B);
+	}
+	else {
+		std::cout << "dzielenie przez zero, try again: \n";
+		return modulo();
+	}
 }
 void kasuj() {
 	A = 0;
-	mem_uzywane = 0;
+	std::cout << "\nPierwsza liczba: ";
+	std::cin >> A;	
 }
 void menu() {
+	std::cout << "Pierwsza liczba: ";
+	std::cin >> A;
 	int wybor;
-	std::cout << "Wpisz 1 - dodawanie \n 2 - odejmowanie \n 3 - mnozenie \n 4 - dzielenie \n 5 - modulo \n 6 - kasuj \n";
-	std::cin >> wybor;
-	if (mem_uzywane) {
+	do {
+		std::cout << "\nWybor:\n 1 - dodawanie \n 2 - odejmowanie \n 3 - mnozenie \n 4 - dzielenie \n 5 - modulo \n 6 - kasuj/anuluj \n 0 - EXIT \n";
+		std::cin >> wybor;
 		switch (wybor) {
 		case 1:
-			A=suma(); break;
+			std::cout<< "Wynik: " << suma(); break;
 		case 2:
-			A=roznica(); break;
+			std::cout << "Wynik: " << roznica(); break;
 		case 3:
-			A=mnozenie(); break;
+			std::cout << "Wynik: " << mnozenie(); break;
 		case 4:
-			A=dzielenie(); break;
+			std::cout << "Wynik: " << dzielenie(); break;
 		case 5:
-			A=modulo(); break;
+			std::cout << "Wynik: " << modulo(); break;
 		case 6:
 			kasuj(); break;
 		}
-	}
+	} while (wybor != 0);
 
 }
 
 int main()
 {
 	menu();
-	std::cout << A;
 	return 0;
 }
 
