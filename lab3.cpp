@@ -2,31 +2,27 @@
 #include <iostream>
 
 class kalkulator {
-	double A;
+	double MEM, B;
 	double suma() {
-		double B;
 		std::cout << "Druga liczba: ";
 		std::cin >> B;
-		return A = (A + B);
+		return MEM = (MEM + B);
 	};
 	double roznica() {
-		double B;
 		std::cout << "Druga liczba: ";
 		std::cin >> B;
-		return A = (A - B);
+		return MEM = (MEM - B);
 	};
 	double mnozenie() {
-		double B;
 		std::cout << "Druga liczba: ";
 		std::cin >> B;
-		return A = (A * B);
+		return MEM = (MEM * B);
 	};
 	double dzielenie() {
-		double B;
 		std::cout << "Druga liczba: ";
 		std::cin >> B;
 		if (B) {
-			return A = (A / B);
+			return MEM = (MEM / B);
 		}
 		else {
 			std::cout << "dzielenie przez zero, try again: \n";
@@ -34,11 +30,10 @@ class kalkulator {
 		}
 	};
 	double modulo() {
-		double B;
 		std::cout << "Druga liczba: ";
 		std::cin >> B;
 		if (B) {
-			return A = (A - (int)(A / B) * B);
+			return MEM = (MEM - (int)(MEM / B) * B);
 		}
 		else {
 			std::cout << "dzielenie przez zero, try again: \n";
@@ -46,33 +41,36 @@ class kalkulator {
 		}
 	};
 	void kasuj() {
-		A = 0;
+		MEM = 0;
 		std::cout << "Pierwsza liczba: ";
-		std::cin >> A;
+		std::cin >> MEM;
 	};
 public:
+	double getmemstate() {
+		return bool(MEM);
+	};
 	void menu() {
 		std::cout << "Pierwsza liczba: \n";
-		std::cin >> A;
+		std::cin >> MEM;
 		int wybor;
 		do {
 			std::cout << "Wybor:\n 1) + \n 2) - \n 3) * \n 4) / \n 5) % \n 6) clear \n 0 - EXIT \n";
 			std::cin >> wybor;
 			switch (wybor) {
 			case 1:
-				std::cout << "Wynik: " << suma(); break;
+				suma(); break;
 			case 2:
-				std::cout << "Wynik: " << roznica(); break;
+				roznica(); break;
 			case 3:
-				std::cout << "Wynik: " << mnozenie(); break;
+				mnozenie(); break;
 			case 4:
-				std::cout << "Wynik: " << dzielenie(); break;
+				dzielenie(); break;
 			case 5:
-				std::cout << "Wynik: " << modulo(); break;
+				modulo(); break;
 			case 6:
 				kasuj(); break;
 			}
-			std::cout << std::endl;
+			std::cout << MEM << std::endl;
 		} while (wybor != 0);
 	};
 };
