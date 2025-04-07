@@ -1,6 +1,7 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include <QMessageBox>
+#include "obliczenia.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
     , ui(new Ui::MainWindow)
@@ -23,6 +24,9 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->Button_DOT, &QPushButton::clicked, this, &MainWindow::dotClicked);
     connect(ui->Button_CLEAR, &QPushButton::clicked, this, &MainWindow::clearClicked);
     connect(ui->Button_BACKSPACE, &QPushButton::clicked, this, &MainWindow::backspaceClicked);
+}
+MainWindow::~MainWindow(){
+    delete ui;
 }
 void MainWindow::OAutorze(){
     QMessageBox::information(this, "About the Author",
@@ -53,6 +57,11 @@ void MainWindow::backspaceClicked(){
     }
     ui->Wyswietlacz->display(currentInput.isEmpty() ? "0" : currentInput);
 }
-MainWindow::~MainWindow(){
-    delete ui;
+
+
+
+void MainWindow::on_Button_plus_clicked()
+{
+    obliczenia::suma;
 }
+

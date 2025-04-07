@@ -1,6 +1,5 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
-
 #include <QMainWindow>
 
 QT_BEGIN_NAMESPACE
@@ -23,10 +22,12 @@ private slots:
     void backspaceClicked();
     void clearClicked();
     void OAutorze();
+
+    void on_Button_plus_clicked();
+
 private:
     Ui::MainWindow *ui;
     QString currentInput;
 };
-
 
 #endif // MAINWINDOW_H
