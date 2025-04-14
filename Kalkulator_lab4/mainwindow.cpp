@@ -9,7 +9,10 @@ MainWindow::MainWindow(QWidget *parent)
     ui->setupUi(this);
     ui->Wyswietlacz->setDigitCount(10);
     ui->Wyswietlacz->setMode(QLCDNumber::Dec);
-    ui->Wyswietlacz->setSegmentStyle(QLCDNumber::Filled);
+    ui->Wyswietlacz->setSegmentStyle(QLCDNumber::Flat);
+    ui->miniwyswietlacz->setDigitCount(10);
+    ui->miniwyswietlacz->setMode(QLCDNumber::Dec);
+    ui->miniwyswietlacz->setSegmentStyle(QLCDNumber::Flat);
     connect(ui->O_autorze, &QAction::triggered, this, &MainWindow::OAutorze);
     connect(ui->Button_0, &QPushButton::clicked, this, &MainWindow::digitClicked);
     connect(ui->Button_1, &QPushButton::clicked, this, &MainWindow::digitClicked);
@@ -42,14 +45,20 @@ void MainWindow::digitClicked(){
 
 }
 void MainWindow::dotClicked(){
+    if(currentInput.isEmpty()){
+        currentInput += "0.";
+        ui->Wyswietlacz->display(currentInput);
+    }
     if(!currentInput.contains('.')) {
          currentInput += ".";
          ui->Wyswietlacz->display(currentInput);
       }
 }
 void MainWindow::clearClicked(){
-    ui->Wyswietlacz->display(0);
+    storedValue=0;
+    ui->miniwyswietlacz->display(storedValue);
     currentInput.clear();
+    ui->Wyswietlacz->display(0);
 }
 void MainWindow::backspaceClicked(){
     if(!currentInput.isEmpty()){
@@ -58,10 +67,29 @@ void MainWindow::backspaceClicked(){
     ui->Wyswietlacz->display(currentInput.isEmpty() ? "0" : currentInput);
 }
 
-
-
 void MainWindow::on_Button_plus_clicked()
 {
-    obliczenia::suma;
+    uzywanyoperator='+';
+    if(!currentInput.isEmpty()){
+        storedValue = oblicz.suma(storedValue, currentInput.toDouble());
+        currentInput.clear();
+        ui->Wyswietlacz->display(0);
+    }
+    ui->miniwyswietlacz->display(storedValue);
+}
+
+
+
+
+
+void MainWindow::on_Button_equal_clicked()
+{
+    double wynik=0;
+    if (uzywanyoperator=='+'){
+        wynik=oblicz.suma(storedValue,currentInput.toDouble());
+    }
+    ui->Wyswietlacz->display(wynik);
+    ui->miniwyswietlacz->display(0);
+
 }
 

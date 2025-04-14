@@ -1,7 +1,7 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 #include <QMainWindow>
-
+#include "obliczenia.h"
 QT_BEGIN_NAMESPACE
 namespace Ui {
 class MainWindow;
@@ -22,12 +22,16 @@ private slots:
     void backspaceClicked();
     void clearClicked();
     void OAutorze();
-
     void on_Button_plus_clicked();
+
+    void on_Button_equal_clicked();
 
 private:
     Ui::MainWindow *ui;
     QString currentInput;
+    QString uzywanyoperator;
+    double storedValue=0;
+    obliczenia oblicz;
 };
 
 #endif // MAINWINDOW_H

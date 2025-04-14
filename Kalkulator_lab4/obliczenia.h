@@ -1,5 +1,6 @@
 #pragma once
 class obliczenia {
+public:
 	double suma(double MEM, double B);
 	double roznica(double MEM, double B);
 	double mnozenie(double MEM, double B);
