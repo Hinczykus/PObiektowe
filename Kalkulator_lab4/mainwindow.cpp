@@ -59,6 +59,7 @@ void MainWindow::clearClicked(){
     ui->miniwyswietlacz->display(storedValue);
     currentInput.clear();
     ui->Wyswietlacz->display(0);
+    uzywanyoperator.clear();
 }
 void MainWindow::backspaceClicked(){
     if(!currentInput.isEmpty()){
@@ -70,7 +71,11 @@ void MainWindow::backspaceClicked(){
 void MainWindow::on_Button_plus_clicked()
 {
     uzywanyoperator='+';
-    if(!currentInput.isEmpty()){
+    if(!storedValue){                                              //jesli storedvalue jest puste(zero)
+        storedValue = currentInput.toDouble();
+        currentInput.clear();
+        ui->Wyswietlacz->display(0);
+    } else {                                                       //jesli storedvalue coś zawiera
         storedValue = oblicz.suma(storedValue, currentInput.toDouble());
         currentInput.clear();
         ui->Wyswietlacz->display(0);
@@ -78,18 +83,56 @@ void MainWindow::on_Button_plus_clicked()
     ui->miniwyswietlacz->display(storedValue);
 }
 
+void MainWindow::on_Button_minus_clicked()
+{
+    if(uzywanyoperator!='-'){
+        currentInput+= '-';
+    }else{
+    uzywanyoperator='-';
+    if(!storedValue){                                              //jesli storedvalue jest puste(zero)
+        storedValue = currentInput.toDouble();
+        currentInput.clear();
+        ui->Wyswietlacz->display(0);
+    } else {                                                       //jesli storedvalue coś zawiera
+        storedValue = oblicz.roznica(storedValue, currentInput.toDouble());
+        currentInput.clear();
+        ui->Wyswietlacz->display(0);
+    }
+    ui->miniwyswietlacz->display(storedValue);
+    }
+}
 
-
-
+void MainWindow::on_Button_mult_clicked()
+{
+    if(storedValue==0){                                              //jesli storedvalue jest puste(zero)
+        storedValue = currentInput.toDouble();
+        currentInput.clear();
+        ui->Wyswietlacz->display(0);
+    } else {                                                         //jesli storedvalue coś zawiera
+        storedValue = oblicz.mnozenie(storedValue, currentInput.toDouble());
+        currentInput.clear();
+        ui->Wyswietlacz->display(0);
+    }
+       uzywanyoperator='x';
+    ui->miniwyswietlacz->display(storedValue);
+}
 
 void MainWindow::on_Button_equal_clicked()
 {
-    double wynik=0;
-    if (uzywanyoperator=='+'){
-        wynik=oblicz.suma(storedValue,currentInput.toDouble());
-    }
-    ui->Wyswietlacz->display(wynik);
     ui->miniwyswietlacz->display(0);
-
+    if (uzywanyoperator=='+'){
+        storedValue=oblicz.suma(storedValue,currentInput.toDouble());
+    }
+    if (uzywanyoperator=='-'){
+        storedValue=oblicz.roznica(storedValue,currentInput.toDouble());
+    }
+    if (uzywanyoperator=='x'){
+        storedValue=oblicz.mnozenie(storedValue,currentInput.toDouble());
+        uzywanyoperator='+';
+    }
+    ui->Wyswietlacz->display(storedValue);
+    currentInput.clear();
 }
+
+
 

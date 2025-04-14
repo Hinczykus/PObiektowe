@@ -23,8 +23,10 @@ private slots:
     void clearClicked();
     void OAutorze();
     void on_Button_plus_clicked();
-
     void on_Button_equal_clicked();
+    void on_Button_minus_clicked();
+
+    void on_Button_mult_clicked();
 
 private:
     Ui::MainWindow *ui;
