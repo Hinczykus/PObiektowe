@@ -16,7 +16,7 @@ Prosty kalkulator wykonany w QT.
 [2]Info do obsługi:
 Kalkulator obsługuje "chainowanie" tych samych/innych operacji matematycznych na otrzymanym wyniku.
 Ta funkcjonalność nie wymaga powtórnego naciśnięcia operatora [1].
-Przykład: '2' -> '+' -> '2' -> 'x' -> '2' -> '='(x) -> '2' '='(x) '3' -> '=' -> 48.
+Przykład: '2' -> '+' -> '2' -> 'x' -> '2' -> '='(x) -> '2' '='(x) -> '3' -> '=' -> 48.
 
 Podgląd obecnego stanu wyniku operacji jest widoczny w mniejszym wyświetlaczu.
 Obecnie używany operator jest wyświetlany na najmniejszym z wyświetlaczy.
