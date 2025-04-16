@@ -1,6 +1,8 @@
 #include "mainwindow.h"
 #include "./ui_mainwindow.h"
 #include <QMessageBox>
+#include <QWidget>
+#include <QFile>
 #include "obliczenia.h"
 MainWindow::MainWindow(QWidget *parent)
     : QMainWindow(parent)
@@ -27,112 +29,144 @@ MainWindow::MainWindow(QWidget *parent)
     connect(ui->Button_DOT, &QPushButton::clicked, this, &MainWindow::dotClicked);
     connect(ui->Button_CLEAR, &QPushButton::clicked, this, &MainWindow::clearClicked);
     connect(ui->Button_BACKSPACE, &QPushButton::clicked, this, &MainWindow::backspaceClicked);
+    connect(ui->Button_plus, &QPushButton::clicked, this, &MainWindow::operatorclicked);
+    connect(ui->Button_minus, &QPushButton::clicked, this, &MainWindow::operatorclicked);
+    connect(ui->Button_mult, &QPushButton::clicked, this, &MainWindow::operatorclicked);
+    connect(ui->Button_div, &QPushButton::clicked, this, &MainWindow::operatorclicked);
+    connect(ui->Button_modulo, &QPushButton::clicked, this, &MainWindow::operatorclicked);
 }
 MainWindow::~MainWindow(){
     delete ui;
 }
 void MainWindow::OAutorze(){
-    QMessageBox::information(this, "About the Author",
+    QMessageBox::information(this, "O autorze",
                              "Zrobione przez: Filip Lenart 287116\n\n"
-                             "Prosty kalkulator, projekt cząstkowy QT.\n"
+                             "Kalkulator prosty, projekt cząstkowy QT.\n"
                             );
 }
-void MainWindow::digitClicked(){
+void MainWindow::digitClicked(){                                   //obsługa przyciskow cyfr 0-9
+    if (currentInput.length() >= 10) return;                      //limit INPUTU Z KLAWISZY do 10 cyfr na wyswietlaczu
     QPushButton *button = qobject_cast<QPushButton *>(sender());
     if (!button) return;
-    currentInput += button->text();
+    if(currentInput=='0'){
+        currentInput.clear();
+    }
+    currentInput += button->text();                               //zamiana napisu z przyciskow cyfr na string
     ui->Wyswietlacz->display(currentInput);
-
+    if(obliczenia.getstoredValue()){
+        ui->miniwyswietlacz->display(obliczenia.getstoredValue());
+    }
 }
-void MainWindow::dotClicked(){
+
+void MainWindow::dotClicked(){                                  //obsługa kropki
     if(currentInput.isEmpty()){
         currentInput += "0.";
         ui->Wyswietlacz->display(currentInput);
+        if(obliczenia.getstoredValue()){
+            ui->miniwyswietlacz->display(obliczenia.getstoredValue());
+        }
     }
+    if (currentInput.length() >= 10) return;
     if(!currentInput.contains('.')) {
          currentInput += ".";
          ui->Wyswietlacz->display(currentInput);
       }
+
 }
-void MainWindow::clearClicked(){
-    storedValue=0;
-    ui->miniwyswietlacz->display(storedValue);
+
+void MainWindow::clearClicked(){                                  //obsługa CLEAR
+    obliczenia.setstoredValue(0);
     currentInput.clear();
-    ui->Wyswietlacz->display(0);
     uzywanyoperator.clear();
+    ui->miniwyswietlacz->display(obliczenia.getstoredValue());
+    ui->Wyswietlacz->display(0);
+    ui->Operator_label->setText(uzywanyoperator);
+    obliczenia.error_type=0;
 }
-void MainWindow::backspaceClicked(){
+
+void MainWindow::backspaceClicked(){                                  //obsługa backspace
     if(!currentInput.isEmpty()){
         currentInput.chop(1);
     }
     ui->Wyswietlacz->display(currentInput.isEmpty() ? "0" : currentInput);
 }
-
-void MainWindow::on_Button_plus_clicked()
+void MainWindow::on_Button_ZNAK_clicked()                           //obsługa zmiany znaku
 {
-    uzywanyoperator='+';
-    if(!storedValue){                                              //jesli storedvalue jest puste(zero)
-        storedValue = currentInput.toDouble();
-        currentInput.clear();
-        ui->Wyswietlacz->display(0);
-    } else {                                                       //jesli storedvalue coś zawiera
-        storedValue = oblicz.suma(storedValue, currentInput.toDouble());
-        currentInput.clear();
-        ui->Wyswietlacz->display(0);
+    if(currentInput.isEmpty()){
+        return;
     }
-    ui->miniwyswietlacz->display(storedValue);
+    if (currentInput.startsWith("-")) {
+        currentInput.remove(0, 1);
+    } else if (!currentInput.isEmpty() && currentInput != "0") {
+        currentInput.prepend("-");
+    }
+
+    ui->Wyswietlacz->display(currentInput);
 }
 
-void MainWindow::on_Button_minus_clicked()
-{
-    if(uzywanyoperator!='-'){
-        currentInput+= '-';
-    }else{
-    uzywanyoperator='-';
-    if(!storedValue){                                              //jesli storedvalue jest puste(zero)
-        storedValue = currentInput.toDouble();
+void MainWindow::operatorclicked(){                                                             //obsluga przyciskow operatorów
+    QPushButton *button = qobject_cast<QPushButton *>(sender());
+    if (!button) return;
+
+    ui->Wyswietlacz->display(0);
+
+    if(!obliczenia.getstoredValue()){                                                                           //jesli storedvalue jest puste(zero)
+        obliczenia.setstoredValue(currentInput.toDouble());
         currentInput.clear();
-        ui->Wyswietlacz->display(0);
-    } else {                                                       //jesli storedvalue coś zawiera
-        storedValue = oblicz.roznica(storedValue, currentInput.toDouble());
-        currentInput.clear();
-        ui->Wyswietlacz->display(0);
     }
-    ui->miniwyswietlacz->display(storedValue);
+    else {                                                                                      //jesli storedvalue coś zawiera
+        MainWindow::on_Button_equal_clicked();
     }
+    uzywanyoperator = button->text();                                                           //zamiana napisu z przycisków operatorów na string
+    ui->Operator_label->setText(uzywanyoperator);
+    ui->miniwyswietlacz->display(obliczenia.getstoredValue());
 }
 
-void MainWindow::on_Button_mult_clicked()
-{
-    if(storedValue==0){                                              //jesli storedvalue jest puste(zero)
-        storedValue = currentInput.toDouble();
-        currentInput.clear();
-        ui->Wyswietlacz->display(0);
-    } else {                                                         //jesli storedvalue coś zawiera
-        storedValue = oblicz.mnozenie(storedValue, currentInput.toDouble());
-        currentInput.clear();
-        ui->Wyswietlacz->display(0);
-    }
-       uzywanyoperator='x';
-    ui->miniwyswietlacz->display(storedValue);
-}
 
-void MainWindow::on_Button_equal_clicked()
+void MainWindow::on_Button_equal_clicked()                                                       //obsługa znaku równości
 {
     ui->miniwyswietlacz->display(0);
-    if (uzywanyoperator=='+'){
-        storedValue=oblicz.suma(storedValue,currentInput.toDouble());
+    if(uzywanyoperator=='x' && currentInput.isEmpty()){                                          //nie pomnozenie przez zero po pierwszym dzialaniu - dla mnożenia
+        currentInput='1';
     }
-    if (uzywanyoperator=='-'){
-        storedValue=oblicz.roznica(storedValue,currentInput.toDouble());
-    }
-    if (uzywanyoperator=='x'){
-        storedValue=oblicz.mnozenie(storedValue,currentInput.toDouble());
-        uzywanyoperator='+';
-    }
-    ui->Wyswietlacz->display(storedValue);
+    obliczenia.setstoredValue(obliczenia.oblicz(uzywanyoperator, obliczenia.getstoredValue(), currentInput.toDouble()));
+    if(obliczenia.error_type==1){
+        MainWindow::clearClicked();
+        QMessageBox::critical(this, "Błąd", "Dzielenie przez zero");
+    };
+    ui->Wyswietlacz->display(obliczenia.getstoredValue());
     currentInput.clear();
 }
 
 
+
+void MainWindow::on_konwersja10_8_triggered()
+{
+    if(!currentInput.isEmpty()){
+        ui->Wyswietlacz->display(obliczenia.decimalToOctal(currentInput.toInt()));
+        currentInput.clear();
+        return;
+    }
+        ui->Wyswietlacz->display(obliczenia.decimalToOctal(obliczenia.getstoredValue()));
+        obliczenia.setstoredValue(0);
+
+}
+
+
+
+
+void MainWindow::on_actionREADME_triggered()
+{
+    QFile file("README.md");                                                    //plik .md wstaw obok .exe!!!
+
+    if (!file.open(QIODevice::ReadOnly | QIODevice::Text)) {                    //jeśli nie otworzy README
+        QMessageBox::warning(this, "Błąd", "Nie można otworzyć README.md");
+        return;
+    }
+
+    QTextStream in(&file);                                                          //zamiana w messagebox
+    QString content = in.readAll();
+    QMessageBox::information(this, "README", content);
+
+}
 

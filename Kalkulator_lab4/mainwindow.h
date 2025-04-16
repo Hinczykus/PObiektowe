@@ -22,18 +22,19 @@ private slots:
     void backspaceClicked();
     void clearClicked();
     void OAutorze();
-    void on_Button_plus_clicked();
+    void operatorclicked();
     void on_Button_equal_clicked();
-    void on_Button_minus_clicked();
+    void on_Button_ZNAK_clicked();
 
-    void on_Button_mult_clicked();
+    void on_konwersja10_8_triggered();
+
+    void on_actionREADME_triggered();
 
 private:
     Ui::MainWindow *ui;
     QString currentInput;
     QString uzywanyoperator;
-    double storedValue=0;
-    obliczenia oblicz;
+    obliczenia obliczenia;
 };
 
 #endif // MAINWINDOW_H
