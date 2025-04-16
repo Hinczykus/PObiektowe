@@ -20,3 +20,5 @@ Przykład: '2' -> '+' -> '2' -> 'x' -> '2' -> '='(x) -> '2' '='(x) '3' -> '=' ->
 
 Podgląd obecnego stanu wyniku operacji jest widoczny w mniejszym wyświetlaczu.
 Obecnie używany operator jest wyświetlany na najmniejszym z wyświetlaczy.
+[3] Pliki:
+obliczenia.cpp i obliczenia.h zawierają funkcje matematyczne do obsługi operatorów.
